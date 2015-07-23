@@ -1,0 +1,63 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', 'mv' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.33
+4 warn package.json node-web-scrape@0.0.1 No repository field.
+5 warn package.json node-web-scrape@0.0.1 No README data
+6 verbose readDependencies using package.json deps
+7 verbose cache add [ 'mv', null ]
+8 verbose cache add name=undefined spec="mv" args=["mv",null]
+9 verbose parsed url { protocol: null,
+9 verbose parsed url   slashes: null,
+9 verbose parsed url   auth: null,
+9 verbose parsed url   host: null,
+9 verbose parsed url   port: null,
+9 verbose parsed url   hostname: null,
+9 verbose parsed url   hash: null,
+9 verbose parsed url   search: null,
+9 verbose parsed url   query: null,
+9 verbose parsed url   pathname: 'mv',
+9 verbose parsed url   path: 'mv',
+9 verbose parsed url   href: 'mv' }
+10 silly lockFile 362d60cb-mv mv
+11 verbose lock mv /Users/i307349/.npm/362d60cb-mv.lock
+12 silly lockFile 362d60cb-mv mv
+13 silly lockFile 362d60cb-mv mv
+14 verbose addNamed [ 'mv', '' ]
+15 verbose addNamed [ null, '*' ]
+16 silly lockFile 62a1a09b-mv mv@
+17 verbose lock mv@ /Users/i307349/.npm/62a1a09b-mv.lock
+18 silly addNameRange { name: 'mv', range: '*', hasData: false }
+19 verbose request where is /mv
+20 verbose request registry http://registry.npmjs.org/
+21 verbose request id 0406f6f56bbc4491
+22 verbose url raw /mv
+23 verbose url resolving [ 'http://registry.npmjs.org/', './mv' ]
+24 verbose url resolved http://registry.npmjs.org/mv
+25 verbose request where is http://registry.npmjs.org/mv
+26 info trying registry request attempt 1 at 18:21:28
+27 http GET http://registry.npmjs.org/mv
+28 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND
+29 info trying registry request attempt 2 at 18:21:39
+30 http GET http://registry.npmjs.org/mv
+31 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND
+32 info trying registry request attempt 3 at 18:22:39
+33 http GET http://registry.npmjs.org/mv
+34 silly lockFile 62a1a09b-mv mv@
+35 silly lockFile 62a1a09b-mv mv@
+36 error network getaddrinfo ENOTFOUND
+36 error network This is most likely not a problem with npm itself
+36 error network and is related to network connectivity.
+36 error network In most cases you are behind a proxy or have bad network settings.
+36 error network
+36 error network If you are behind a proxy, please make sure that the
+36 error network 'proxy' config is set properly.  See: 'npm help config'
+37 error System Darwin 14.0.0
+38 error command "node" "/usr/local/bin/npm" "install" "mv"
+39 error cwd /Users/i307349/Documents/workspace/eco
+40 error node -v v0.10.33
+41 error npm -v 1.4.28
+42 error syscall getaddrinfo
+43 error code ENOTFOUND
+44 error errno ENOTFOUND
+45 verbose exit [ 1, true ]

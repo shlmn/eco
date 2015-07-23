@@ -1,0 +1,9 @@
+{
+    "mainURL": "http://eco99fm.maariv.co.il",
+    "sourceFilePrefix": "http://a99.livecdn.biz/99fm/mediafiles/",
+
+    "localPath": "./",
+    "tmpPath": "/tmp/",
+    "destinationPath": "/Users/i307349/Dropbox/Playlist/",
+    "latestMainHTML": "latest-main-html.html"
+}
