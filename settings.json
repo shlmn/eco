@@ -2,7 +2,7 @@
     "mainURL": "http://eco99fm.maariv.co.il",
     "sourceFilePrefix": "http://a99.livecdn.biz/99fm/mediafiles/",
 
-    "localPath": "./",
+    "localPath": "~/eco/",
     "tmpPath": "/tmp/",
     "destinationPath": "/mnt/playlist/",
     "latestMainHTML": "latest-main-html.html"
