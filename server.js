@@ -5,7 +5,7 @@ var http = require('http');
 
 var settings = require('./settings.json');
 var mainURL = settings.mainURL;
-var sourceFilePrefix = settings.sourceFilePrefix;
+var playerPrefix = settings.playerPrefix;
 var localPath = settings.localPath;
 var tmpPath = settings.tmpPath;
 var destinationPath = settings.destinationPath;
@@ -15,74 +15,65 @@ var latestDownloadDetails = { fileName : "", path : tmpPath, playerURL : ""};
 
 var fs = require("fs");
 
-console.log("*** " + mainURL);
 getPage(mainURL, function(err,html) {
 
-  saveHTML(settings.latestMainHTML,html);
+    saveHTML(settings.latestMainHTML,html);
 
-  var $ = cheerio.load(html);
+    var $ = cheerio.load(html);
+    var playerParts = [];
+    //  $('div.innerBoxSub a.mainShowLink').filter(function(){
+    $('div.lastShowLink').filter(function () {
+        data = $(this);
+        playerParts.push(data.parent('a').attr('href'));
+    });  
+    var playerURL = playerPrefix + playerParts[0];
 
-  var idx = 0;
-  var playerParts = [];
-  $('div table tr td table tr td div a').filter(function(){
-    playerParts.push($(this));
-  });
+    getPage(playerURL, function (err, html) {
+        $ = cheerio.load(html);
+        $('div.eco99Body center div input').filter(function (){
+            data = $(this);
+            var sourceFileURL = data.attr('value');
+            sourceFile = data.attr('value').split('/')[5];
+            console.log("***" + sourceFile);
+            console.log(localPath + latestDownloadDetailsFile);
 
-  // Let's store the data we filter into a variable so we can easily see what's going on.
-  var data = playerParts[0].get("0");
+             var latestDownloadDetails = require(localPath + latestDownloadDetailsFile);
 
-  // Navigate and get the text from:
-  // <tr><td width="100%" align="right" valign="bottom" height="40"><a href="javascript:PlayThisSong('3261','1');"><img src="/images/but_leazana.gif" width="157" height="39" border="0">
+            if (sourceFile == latestDownloadDetails.fileName) {
+                console.log("File already exists: " + latestDownloadDetails.fileName);
+            } else {
+                console.log("Downloading: " + sourceFile);
 
-  var fileId = data.attribs.href;
-  var playerURL = mainURL + fileId;
+                downloadFile(sourceFileURL, tmpPath, sourceFile, function(err) {
+                    if(err) {
+                        console.log(err);
+                    }
+                    else {
+                        console.log("finished download");
+                        latestDownloadDetails.fileName = sourceFile;
+                        latestDownloadDetails.playerURL = playerURL;
+                        fs.writeFile(localPath + latestDownloadDetailsFile, JSON.stringify(latestDownloadDetails, null, 4), function(err){
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                console.log('File successfully written! - Check your project directory for the output.json file');
+                            };
+                        });
+                        var src = tmpPath + sourceFile;
+                        var dest = destinationPath + sourceFile;
+                        console.log("*** * " + src);
+                        var mv = require('mv');
 
-  getPage(playerURL, function(err,html) {
-    $ = cheerio.load(html);
-    $('div center div input').filter(function(){
-      data = $(this);
-      sourceFile = data.attr('value').split('/')[5];
-      var sourceFileURL = sourceFilePrefix + sourceFile;
-      console.log("***" + sourceFile);
-
-      console.log(localPath + latestDownloadDetailsFile);
-      var latestDownloadDetails = require(localPath + latestDownloadDetailsFile);
-
-      if (sourceFile == latestDownloadDetails.fileName) {
-        console.log("File already exists: " + latestDownloadDetails.fileName);
-      } else {
-        console.log("Downloading: " + sourceFile);
-
-        downloadFile(sourceFileURL, tmpPath, sourceFile, function(err) {
-          if(err) {
-            console.log(err);
-          }
-          else {
-            console.log("finished download");
-            latestDownloadDetails.fileName = sourceFile;
-            latestDownloadDetails.playerURL = playerURL;
-            fs.writeFile(localPath + latestDownloadDetailsFile, JSON.stringify(latestDownloadDetails, null, 4), function(err){
-              if (err) {
-                console.log(err);
-              } else {
-                console.log('File successfully written! - Check your project directory for the output.json file');
-              };
-            });
-            var src = tmpPath + sourceFile;
-            var dest = destinationPath + sourceFile;
-            console.log("*** * " + src);
-            var mv = require('mv');
-
-            mv(src, dest, function(err) {
-              // handle the error
-            });
-            console.log("*** *" + dest);
-          };
-          console.log("***end***");
+                        mv(src, dest, function(err) {
+                            // handle the error
+                        });
+                        console.log("*** *" + dest);
+                    };
+                    console.log("***end***");
+                });
+            };
         });
-      };
     });
-  });
 });
 
 
@@ -97,7 +88,8 @@ function getPage(url, callback) {
         });
       });
     });
-  });
+ }, 
+   { dnodeOpts: { weak: false } });
 };
 
 
